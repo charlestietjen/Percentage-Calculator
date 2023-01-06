@@ -1,10 +1,10 @@
 import { useState } from "react"
-import { CalculatorItem } from "../CalculatorItem"
+import { VscTrash, VscClose, VscAdd } from 'react-icons/vsc'
 
 export const Calculator = () => {
     const [formState, setFormState] = useState({
-        total: 0,
-        splits: [0.0, 0.0],
+        total: "",
+        splits: ["", ""],
         splitsTotal: 0.0,
         results: [0.0, 0.0],
     })
@@ -66,6 +66,16 @@ export const Calculator = () => {
         }
     }
 
+    const onClearAll = e => {
+        e.preventDefault()
+        setFormState({
+            total: "",
+            splits: ["", ""],
+            splitsTotal: 0.0,
+            results: [0.0, 0.0],
+        })
+    }
+
     const calculateResult = () => {
         let resultTotal = 0
         formState.results.forEach(val => {
@@ -79,7 +89,7 @@ export const Calculator = () => {
             <form className={"align-self-center"}>
                 <div className={"horizontal-stack justify-center m-y-1"}>
                     <h2 className={"stack-item fit-content"}>Total to Split</h2>
-                    <input className={"stack-item fit-content"} name={"total"} placeholder={"Eg. 30"} type={"number"} onChange={e => onFormUpdate(e)} />
+                    <input className={"stack-item fit-content"} value={formState.total} name={"total"} placeholder={"Eg. 30"} type={"number"} onChange={e => onFormUpdate(e)} />
                     <h2 className={"stack-item fit-content"}>Result Total: {calculateResult()}</h2>
                 </div>
                 {formState.total !== calculateResult() ? (
@@ -97,18 +107,19 @@ export const Calculator = () => {
                         </div>
                         <div className={"horizontal-stack"}>
                             <h3 className={"stack-item fit-content"}>Split %</h3>
-                            <input className={"stack-item fit-content"} placeholder={"Eg. 15%"} name={`split-value.${i}`} type={"number"} onChange={onFormUpdate} />
+                            <input className={"stack-item fit-content"} value={element} placeholder={"Eg. 15%"} name={`split-value.${i}`} type={"number"} onChange={onFormUpdate} />
                         </div>
                         <div className={"horizontal-stack"}>
                             <h3 className={"stack-item fit-content"}>Result: {formState.results[i]}</h3>
                         </div>
                     </div>
                 ))}
-                <div className={"horizontal-stack"}>
-                    <button onClick={onAddSplit} className={"stack-item fit-content button"}>Add a split</button>
+                <div className={"horizontal-stack horizontal-flex"}>
+                    <button onClick={onAddSplit} className={"stack-item fit-content button button-success"}><VscAdd />Add a split</button>
                     {formState.splits.length > 2 ? (
-                        <button onClick={onRemoveSplit} className={"stack-item fit-content button"}>Remove a split</button>
+                        <button onClick={onRemoveSplit} className={"stack-item fit-content button button-success"}><VscClose />Remove a split</button>
                     ) : ''}
+                    <button onClick={onClearAll} className={"stack-item fit-content button right-align button-warning"}><VscTrash />Clear all</button>
                 </div>
             </form>
         </div>
