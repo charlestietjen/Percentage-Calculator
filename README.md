@@ -21,3 +21,7 @@ To deploy this project run
   npm run build
 ```
 Then serve index.html with your server of choice.
+
+## Live build
+
+[Live build available here](http://percentagecalculator.charlestietjen.ca/)
